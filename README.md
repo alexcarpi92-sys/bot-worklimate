@@ -32,8 +32,8 @@ Vai su **Settings → Secrets and variables → Actions → New repository secre
 
 | Secret name        | Valore                        |
 |--------------------|-------------------------------|
-| `TELEGRAM_TOKEN`   | Il token del tuo bot Telegram |
-| `TELEGRAM_CHAT_ID` | Il tuo chat ID numerico       |
+| `TELEGRAM_TOKEN`   |8572402552:AAGqBh0Cy4BjmBjC_f5r6FDBDbbOUrGFrHc|
+| `TELEGRAM_CHAT_ID` | 1126449409|
 
 ### 3. Attiva GitHub Actions
 Il workflow gira automaticamente. Puoi avviarlo manualmente da  
