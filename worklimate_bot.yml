@@ -1,0 +1,50 @@
+name: Worklimate Rischio Caldo Bot
+
+on:
+  schedule:
+    # Ogni giorno alle 06:00 ora italiana (05:00 UTC, ora legale)
+    # e alle 12:00 ora italiana (11:00 UTC) per aggiornamento di mezzogiorno
+    - cron: "0 5 * * *"
+    - cron: "0 11 * * *"
+
+  # Esecuzione manuale dal pannello GitHub Actions
+  workflow_dispatch:
+
+jobs:
+  check-rischio-caldo:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installa dipendenze Python
+        run: |
+          pip install playwright
+
+      - name: Installa browser Playwright (Chromium)
+        run: |
+          playwright install chromium
+          playwright install-deps chromium
+
+      - name: Esegui bot controllo rischio caldo
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python check_rischio_caldo.py
+
+      - name: Salva screenshot (in caso di errore o debug)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: debug-screenshot
+          path: debug_screenshot.png
+          if-no-files-found: ignore
+          retention-days: 3
